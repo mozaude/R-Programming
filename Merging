@@ -1,0 +1,17 @@
+Use the merge function to merge two data frames using common variables (column names) or row names
+In the example below I merged two data frames using the common variable 'nid' that I had downloaded from MozART 
+
+MainCohortUniqueVL<-merge(MainCohortUnique,ViralLoadLabResults,by="nid",all.x = T)
+
+Code line explained:
+MainCohortUniqueVL is the new data frame that will result from joining both data frames
+<- this simbols assign that new data frame to the code that follows
+merge is a fucntion built in the base R code to merge data frames
+(MainCohortUnique,ViralLoadLabResults are the names of the two data frames to be joined
+by="nid" is indicating that we want to merge by using the common variable nid
+all.x = T keeps all variables in both datasets
+
+Links to sources for exploring other merge options
+https://www.math.ucla.edu/~anderson/rw1001/library/base/html/merge.html
+https://www.statmethods.net/management/merging.html
+http://www.programmingr.com/examples/r-dataframe/merge-data-frames/
