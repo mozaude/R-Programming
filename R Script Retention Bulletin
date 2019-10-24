@@ -1,0 +1,61 @@
+#R code from Marcela and Neha K for retention bulletin
+
+rm(list = ls())
+library(xlsx)
+library("readxl")
+#library("survminer")
+library(Hmisc)
+library(foreign)
+library(tidyverse)
+
+#Change this to set your own working directory
+setwd("M:\\MozART Analysis\\Retention Q3 FY19")
+
+#Change this to indicate were the dataset to be read by R is lcoated
+Retention <- read.csv("L:\\EPI\\Retention\\12monthRetentionVLCD4 10.24.19.csv")
+
+#distinct nid 51,880
+Retention %>% group_by(NID) %>% summarise(patients=n_distinct(NID))
+
+Retention %>% group_by(Province) %>% 
+  arrange(Province) %>% summarise(HF=n_distinct(Health_Facility))
+
+Retention %>% group_by(Province) %>% 
+  arrange(Province) %>% summarise(HF=n_distinct(HdD))
+
+Retention %>% group_by(Province) %>% 
+  arrange(Province) %>% summarise(Patients=n_distinct(NID))
+
+#total sex 53,907
+Retention %>% group_by(Sex) %>% 
+  summarise(Patients=n_distinct(NID))
+
+#categorizing CD4 counts
+Retention$resultcd.1<- as.numeric(Retention$resultcd.1)
+
+class(Retention$resultcd.1)
+
+attach(Retention)
+Retention$CD4Category[resultcd.1>=200]="1"
+Retention$CD4Category[resultcd.1<200]="0"
+detach(Retention)
+
+class(Retention$CD4Category)
+
+Retention %>% group_by(CD4Category) %>% 
+  summarise(Patients=n_distinct(NID))
+
+
+#categorizing VL
+Retention$resultVL.1<- as.numeric(Retention$resultVL.1)
+
+class(Retention$resultVL.1)
+
+
+attach(Retention)
+Retention$VLCategory[resultVL.1>=1000]="1"
+Retention$VLCategory[resultVL.1<1000]="0"
+detach(Retention)
+
+Retention %>% group_by(VLCategory) %>% 
+  summarise(Patients=n_distinct(NID))
